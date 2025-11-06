@@ -7,7 +7,7 @@ Your intelligent assistant for vehicle manuals, service guides, and repair docum
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/YOUR-USERNAME/drivequery.git
+git clone https://github.com/NancyJangra/DriveQuery.git
 cd drivequery
 ```
 
