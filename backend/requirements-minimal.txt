@@ -1,0 +1,41 @@
+# Minimal Requirements for Windows 11
+# ====================================
+# This is a simplified version that's easier to install
+# Document search (FAISS) is optional - can add later
+
+# Core Backend Framework (REQUIRED)
+fastapi==0.109.0
+uvicorn==0.27.0
+python-multipart==0.0.6
+
+# OpenAI (REQUIRED - the AI brain!)
+openai==1.12.0
+
+# Basic utilities (REQUIRED)
+python-dotenv==1.0.1
+pydantic==2.6.1
+
+# Document Processing - Basic (REQUIRED)
+PyPDF2==3.0.1
+python-docx==1.1.0
+
+# ======================================
+# OPTIONAL PACKAGES (Add if needed)
+# ======================================
+# Uncomment these if you want full features:
+
+# For advanced document processing:
+# langchain==0.1.9
+# langchain-openai==0.0.5
+# tiktoken==0.6.0
+
+# For document search (FAISS):
+# faiss-cpu==1.7.4
+# numpy==1.26.3
+
+# Notes:
+# ------
+# 1. Start with this minimal setup to test if everything works
+# 2. Once basic chat works, you can add optional packages
+# 3. FAISS can be tricky on Windows - install it separately if needed:
+#    pip install faiss-cpu --no-cache-dir
