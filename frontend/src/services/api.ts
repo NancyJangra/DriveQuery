@@ -12,7 +12,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  baseURL: import.meta.env.VITE_API_URL || 'https://drivequery-backend.onrender.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -176,5 +176,23 @@ api.interceptors.response.use(
     }
   }
 );
+/**
+ * Helper function for backward compatibility
+ */
+export const uploadDocument = async (file: File) => {
+  try {
+    const response = await documentsAPI.upload(file);
+    return {
+      success: true,
+      file_id: response.document_id,
+      filename: response.filename,
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+};
 
 export default api;

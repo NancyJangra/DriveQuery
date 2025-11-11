@@ -1,25 +1,28 @@
 {
   "name": "drivequery",
+  "homepage": "https://nNancyJangra.github.io/DriveQuery",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.0",
     "axios": "^1.6.2",
-    "lucide-react": "^0.294.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "tailwind-merge": "^2.1.0",
-    "react-markdown": "^9.0.1",
+    "lucide-react": "^0.294.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
+    "react-markdown": "^9.0.1",
+    "react-router-dom": "^6.20.0",
+    "tailwind-merge": "^2.1.0",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
@@ -32,6 +35,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.6",
     "typescript": "^5.2.2",

@@ -1,5 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
+
+// Add Message interface
+interface Message {
+  type: 'user' | 'assistant' | 'error' | 'system';
+  content: string;
+  sources?: string[];
+}
 
 // Icon components
 const UploadIcon = () => (
@@ -45,12 +52,12 @@ const EmptyStateIcon = () => (
 );
 
 function App() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
-  const [documents, setDocuments] = useState([]);
+  const [documents, setDocuments] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef(null);
-  const fileInputRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -67,7 +74,7 @@ function App() {
 
   const fetchDocuments = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/documents/list');
+      const response = await fetch('https://drivequery-backend.onrender.com/api/documents/list');
       const data = await response.json();
       setDocuments(data.documents || []);
     } catch (error) {
@@ -75,59 +82,59 @@ function App() {
     }
   };
 
-  const handleFileUpload = async (event) => {
-  const file = event.target.files[0];
-  if (!file) return;
+  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-  console.log('📁 File selected:', file.name, file.type, file.size);
+    console.log('📁 File selected:', file.name, file.type, file.size);
 
-  const formData = new FormData();
-  formData.append('file', file);
+    const formData = new FormData();
+    formData.append('file', file);
 
-  setIsLoading(true);
-  try {
-    console.log('📤 Sending to backend...');
-    const response = await fetch('http://localhost:8000/api/documents/upload', {
-      method: 'POST',
-      body: formData,
-    });
-    
-    console.log('📥 Response status:', response.status);
-    console.log('📥 Response ok?:', response.ok);
-    
-    const responseText = await response.text();
-    console.log('📥 Raw response:', responseText);
-    
-    let data;
+    setIsLoading(true);
     try {
-      data = JSON.parse(responseText);
-      console.log('📥 Parsed data:', data);
-    } catch (e) {
-      console.error('❌ Failed to parse JSON:', e);
-    }
-    
-    if (response.ok && data) {
-      setMessages([...messages, {
-        type: 'system',
-        content: `✓ Upload successful — ${data.filename} added (${data.total_chars} characters, ${data.chunks || 0} chunks)`
-      }]);
-      fetchDocuments();
-    } else {
+      console.log('📤 Sending to backend...');
+      const response = await fetch('https://drivequery-backend.onrender.com/api/documents/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      console.log('📥 Response status:', response.status);
+      console.log('📥 Response ok?:', response.ok);
+      
+      const responseText = await response.text();
+      console.log('📥 Raw response:', responseText);
+      
+      let data;
+      try {
+        data = JSON.parse(responseText);
+        console.log('📥 Parsed data:', data);
+      } catch (e) {
+        console.error('❌ Failed to parse JSON:', e);
+      }
+      
+      if (response.ok && data) {
+        setMessages([...messages, {
+          type: 'system',
+          content: `✓ Upload successful — ${data.filename} added (${data.total_chars} characters, ${data.chunks || 0} chunks)`
+        }]);
+        fetchDocuments();
+      } else {
+        setMessages([...messages, {
+          type: 'error',
+          content: data?.detail || 'Unable to parse this file. Try uploading a PDF or DOCX of the manual.'
+        }]);
+      }
+    } catch (error) {
+      console.error('❌ Upload error:', error);
       setMessages([...messages, {
         type: 'error',
-        content: data?.detail || 'Unable to parse this file. Try uploading a PDF or DOCX of the manual.'
+        content: 'Upload failed. Please try again.'
       }]);
+    } finally {
+      setIsLoading(false);
     }
-  } catch (error) {
-    console.error('❌ Upload error:', error);
-    setMessages([...messages, {
-      type: 'error',
-      content: 'Upload failed. Please try again.'
-    }]);
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || isLoading) return;
@@ -138,7 +145,7 @@ function App() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/chat', {
+      const response = await fetch('https://drivequery-backend.onrender.com/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage }),
@@ -160,7 +167,7 @@ function App() {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
@@ -374,12 +381,13 @@ function App() {
             Press <kbd>Enter</kbd> to send, <kbd>Shift + Enter</kbd> for new line
           </div>
         </div>
+        
+        <footer className="app-footer">
+          Built by Nancy | Internship Project
+        </footer>
       </div>
     </div>
   );
 }
-<footer className="app-footer">
-  Built by Nancy | Internship Project
-</footer>
 
 export default App;
