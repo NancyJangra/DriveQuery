@@ -29,7 +29,9 @@ app = FastAPI(
 # In production, you'd want to specify exact origins instead of "*"
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins - fine for development
+    allow_origins=["http://localhost:3000",
+        "http://localhost:5173",
+        "https://NancyJangra.github.io"],  # Allows all origins - fine for development
     allow_credentials=True,
     allow_methods=["*"],  # Allows all methods (GET, POST, etc.)
     allow_headers=["*"],  # Allows all headers
