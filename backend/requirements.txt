@@ -1,28 +1,4 @@
-# Core Backend Framework
 fastapi==0.109.0
-uvicorn[standard]==0.27.0
-python-multipart==0.0.6
-
-# OpenAI Integration
+uvicorn==0.27.0
 openai==1.54.0
-tiktoken==0.6.0
-
-# LangChain (if you're using it)
-langchain==0.1.9
-langchain-openai==0.0.5
-langchain-community==0.0.20
-
-# Vector Store (optional - remove if not using RAG)
-faiss-cpu>=1.8.0
-
-# Document Processing (if you're processing PDFs/DOCX)
-PyPDF2==3.0.1
-python-docx==1.1.0
-Pillow==10.2.0
-
-# Data & Utilities
-pydantic==2.6.1
-pydantic-settings==2.1.0
 python-dotenv==1.0.1
-numpy==1.26.3
-passlib==1.7.4
