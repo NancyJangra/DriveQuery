@@ -1,11 +1,4 @@
-"""
-AutoQuery Backend - Main FastAPI Application
-=============================================
-This is the entry point for the backend server.
-It sets up FastAPI, CORS, and all the API routes.
 
-For a 2nd year BTech student - Think of this as the "main()" of your backend!
-"""
 from dotenv import load_dotenv
 import os
 
